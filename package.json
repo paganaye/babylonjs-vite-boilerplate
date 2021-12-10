@@ -1,0 +1,27 @@
+{
+  "name": "global-game-jam-2023",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:DaveRubin/global-game-jam-2023.git",
+  "author": "David Rubin <dudrubin@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --port 8080"
+  },
+  "devDependencies": {
+    "@babylonjs/core": "^5.44.0",
+    "@babylonjs/inspector": "^5.44.0",
+    "@babylonjs/loaders": "^5.44.0",
+    "@babylonjs/materials": "^5.44.0",
+    "@babylonjs/gui": "^5.44.0",
+    "@babylonjs/serializers": "^5.44.0",
+    "@babylonjs/gui-editor": "^5.44.0",
+    "html-webpack-plugin": "^5.5.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.5",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  }
+}
