@@ -10,7 +10,7 @@ It starts faster than webpack and allow debugging from vscode.
 - clone or download the repo
 - npm install
 - For development: `npm run dev`
-- For production: `npm run build`
+- For production: `npm run build` then to preview what was built `npm run preview`
 
 ## Development mode and debugging
 First `npm run dev`
@@ -19,6 +19,12 @@ Then in vscode press F5, otherwise just open a browser at http://localhost:3000/
 ## Live Demo
 You can see this repository live here:
 https://babylonjs-vite-boilerplate.vercel.app/
+
+## Production build
+First `npm run build`
+A `dist` folder is created and contains the distribution. 
+You can `npm run preview` it on your development machine.
+Production preview runs at http://localhost:5000/ . The terminal will display external URLs if you want to test from a phone or tablet.
 
 ## File Structure
 

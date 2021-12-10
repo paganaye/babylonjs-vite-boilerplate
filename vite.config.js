@@ -1,10 +1,11 @@
-import path from 'path';
+import { defineConfig } from 'vite';
 
-export default {
-    resolve: {
-        alias: {
-            //'babylonjs': path.resolve(__dirname, './node_modules/babylonjs/babylon.max')
-            'babylonjs': 'babylonjs/babylon.max'
+export default defineConfig(({ command, mode }) => {
+    return {
+        resolve: {
+            alias: {
+                'babylonjs': mode === 'development' ? 'babylonjs/babylon.max' : 'babylonjs'
+            }
         }
-    }
-};
+    };
+});
