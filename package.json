@@ -2,9 +2,9 @@
   "name": "friends",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --open",
     "build": "tsc && vite build",
-    "preview": "vite preview --host"
+    "preview": "tsc && vite build && vite preview --host --open"
   },
   "typeRoots": [
     "node_modules/@types",
