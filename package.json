@@ -11,10 +11,10 @@
     "src/@types"
   ],
   "devDependencies": {
-    "typescript": "^4.5.3",
-    "vite": "^2.7.1"
+    "typescript": "^4.6.2",
+    "vite": "^2.8.6"
   },
   "dependencies": {
-    "babylonjs": "^4.2.0"
+    "babylonjs": "^4.2.2"
   }
 }
