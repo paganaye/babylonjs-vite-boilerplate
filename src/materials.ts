@@ -1,9 +1,9 @@
-import { Engine, StandardMaterial, Texture } from "@babylonjs/core";
+import { Color3, Engine, StandardMaterial, Texture } from "@babylonjs/core";
 
 
-export const createMaterial = (color) => {
+export const createMaterial = (color: Color3) => {
     const scene = Engine.LastCreatedScene;
-    const material = new StandardMaterial("A", scene);
+    const material = new StandardMaterial("A", scene!);
     material.alpha = 1;
     material.diffuseColor = color
     return material
@@ -16,16 +16,14 @@ export const createUndergroundMaterial = () => {
     const diff = new Texture("./textures/forest_ground_04_diff_1k.jpg");
     const amb = new Texture("./textures/forest_ground_04_ao_1k.jpeg");
     const norm = new Texture("./textures/forest_ground_04_nor_gl_1k.jpeg");
-    // disp.
+
     mat.diffuseTexture = diff;
     mat.ambientTexture = amb;
-    mat.bumpTexture = norm;
+
     textures.push(diff)
     textures.push(amb)
     textures.push(norm)
 
-    // mat.invertNormalMapX = true;
-    // mat.invertNormalMapY = true;
     mat.specularPower = 180;
 
     textures.forEach(tex => {
