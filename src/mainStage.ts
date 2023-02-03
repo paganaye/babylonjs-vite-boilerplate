@@ -12,7 +12,15 @@ export const createMainStage = () => {
     createGround();
     createSky();
     new Plant();
-    new SingleRoot();
+    let ypos = -1;
+    const a = [Vector3.Zero(), new Vector3(0, -1, 0)];
+    const root = new SingleRoot([Vector3.Zero(), new Vector3(0, -1, 0)]);
+
+    setInterval(() => {
+        ypos -= 0.1;
+        a.push(new Vector3((Math.random() - 0.5) * 0.3, ypos, 0))
+        root.update(a)
+    }, 200)
     createUnderground();
 }
 

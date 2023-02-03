@@ -1,28 +1,27 @@
 import { Mesh, MeshBuilder, Vector3 } from "@babylonjs/core";
+import { Plant } from "./plant";
 
 export class SingleRoot {
-    tube: Mesh
-    constructor() {
-        const makeCurve = (range: any, nbSteps: any) => {
-            const path = [];
-            const stepSize = range / nbSteps;
-            for (let i = -range / 2; i < range / 2; i += stepSize) {
-                let t = i / Math.PI * 2;
-                let x = Math.sin(t) + i;
-                path.push(new Vector3(x, 0, 0))
-            }
-            return path;
-        };
-        const length = 3;
-        const segments = 10;
-        const curve = makeCurve(length, segments);
+    path: Vector3[] = [];
+    // @ts-ignore
+    tube: Mesh;
 
-        const radiusChange = (index: any, distance: any) => {
-            const radius = (distance / length) * 0.1;
+    constructor(initialPath: Vector3[] = []) {
+        this.update(initialPath, true);
+    }
+
+    update = (path: Vector3[], init?: boolean) => {
+        if (!init) {
+            this.tube.dispose();
+        }
+        this.path = path
+        const segments = path.length;
+        const radiusChange = (index: any) => {
+            const radius = (((segments - 1) - index) / segments) * 0.1;
             return radius;
         };
-
-        this.tube = MeshBuilder.CreateTube("tube", { path: curve, radiusFunction: radiusChange, sideOrientation: Mesh.DOUBLESIDE });
+        this.tube = MeshBuilder.CreateTube("tube", { path, radiusFunction: radiusChange, sideOrientation: Mesh.DOUBLESIDE, updatable: true });
+        this.tube.material = Plant.instance.material;
 
     }
 }

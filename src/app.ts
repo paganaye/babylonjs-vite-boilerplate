@@ -25,7 +25,7 @@ class App {
         var CoT = new TransformNode("cameraNode");
 
         camera.parent = CoT;
-        CoT.position.set(0, 0.1, -4)
+        CoT.position.set(0, 0.1, -8);
         var mainLight: HemisphericLight = new HemisphericLight("light1", new Vector3(0, 1, 1), scene);
         mainLight.intensity = 0.2;
         const game = new MainGame();
