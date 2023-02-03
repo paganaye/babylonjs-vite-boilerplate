@@ -69,6 +69,10 @@ function createPlant() {
     const root = new TransformNode("plant");
     const leaf1 = createLeaft();
     const leaf2 = createLeaft();
+
+    leaf2.position.set(-0.415, 0, -0.415);
+    leaf2.rotation.set(0, -106.2822 * DEGREE, 13.2228 * DEGREE)
+    leaf2.scaling.set(0.7, 0.7, 0.7);
     leaf1.parent = root;
     leaf2.parent = root;
 }
