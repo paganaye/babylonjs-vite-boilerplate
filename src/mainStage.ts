@@ -1,7 +1,7 @@
 import { Color3, Engine, MeshBuilder, PointLight, TransformNode, Vector3 } from "@babylonjs/core";
 import { DEGREE } from "./consts";
 import { createMaterial, createUndergroundMaterial } from "./materials";
-import { Plant } from "./meshImporter";
+import { Plant } from "./plant";
 
 
 const groundWidth = 100;
@@ -10,7 +10,7 @@ const groundDepth = 1;
 export const createMainStage = () => {
     createGround();
     createSky();
-    createPlant();
+    new Plant();
     createUnderground();
 }
 
@@ -52,6 +52,7 @@ function createSky() {
         light2.intensity = 1;
         return light2
     }
+
     const root = new TransformNode("sky");
     const sky = MeshBuilder.CreatePlane("sky", { width: groundWidth, height: groundWidth });
     const m = createMaterial(new Color3(1, 1, 1), "skyMaterial");
@@ -76,23 +77,5 @@ function createSky() {
     createLight(Color3.FromHexString(set_Orange.left), new Vector3(-5, 0, 2), "red").parent = root;
 }
 
-function createPlant() {
-    const root = new TransformNode("plant");
-    const small = Plant.GetLeaft();
-    const big = Plant.GetLeaft();
-    const base = Plant.GetPlantBase();
-    const base2 = Plant.GetPlantBase();
 
-    base2.position.set(-2, -1, 0);
-    big.rotation.set(15 * DEGREE, 135 * DEGREE, 0)
-    small.rotation.set(15 * DEGREE, -90 * DEGREE, 0)
-    small.scaling.set(0.3, 0.3, 0.3);
-    big.scaling.set(0.5, 0.5, 0.5);
-    base.position.set(0, -0.2, 0);
-
-
-    base.parent = root;
-    small.parent = root;
-    big.parent = root;
-}
 
