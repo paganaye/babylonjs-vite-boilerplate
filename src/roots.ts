@@ -1,11 +1,4 @@
-import {
-  AbstractMesh,
-  Mesh,
-  MeshBuilder,
-  PointerEventTypes,
-  Scene,
-  Vector3,
-} from "@babylonjs/core";
+import { AbstractMesh, Mesh, MeshBuilder, PointerEventTypes, Scene, Vector3 } from "@babylonjs/core";
 
 export class Roots {
   scene: Scene;
@@ -20,11 +13,7 @@ export class Roots {
 
   constructor(scene: Scene) {
     this.scene = scene;
-    this.roots[this.currentRoot] = MeshBuilder.CreateBox(
-      "baseRoot",
-      { size: 0.4 },
-      this.scene
-    );
+    this.roots[this.currentRoot] = MeshBuilder.CreateBox("baseRoot", { size: 0.4 }, this.scene);
     this.roots[this.currentRoot].position.y = -0.2;
   }
 
@@ -53,13 +42,10 @@ export class Roots {
   }
 
   createSphere(position: Vector3) {
-    this.sphere = MeshBuilder.CreateSphere(
-      "sphere",
-      { diameter: 0.7 },
-      this.scene
-    );
+    this.sphere = MeshBuilder.CreateSphere("sphere", { diameter: 0.7 }, this.scene);
     this.sphere.position = position;
     this.isDragging = true;
+    return this.sphere;
   }
 
   deleteSphere() {
@@ -75,20 +61,14 @@ export class Roots {
 
   moveSphere() {
     if (this.isDragging) {
-      const direction = this.currentMousePosition.subtract(
-        this.sphere.position
-      );
+      const direction = this.currentMousePosition.subtract(this.sphere.position);
       const distance = direction.length();
       direction.normalize();
 
       // Move the sphere in the direction of the mouse with speed 1
       if (distance > 0.1) {
         this.sphere?.moveWithCollisions(
-          new Vector3(
-            direction.x * this.rootSpeed,
-            direction.y * this.rootSpeed,
-            0
-          )
+          new Vector3(direction.x * this.rootSpeed, direction.y * this.rootSpeed, 0)
         );
       }
     }
