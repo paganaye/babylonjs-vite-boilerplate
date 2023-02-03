@@ -5,6 +5,7 @@ import "@babylonjs/loaders";
 import "@babylonjs/loaders/glTF";
 import { animateTo } from "./animations";
 import { MainGUI } from "./gui";
+import { MainGame } from "./MainGame";
 import { createMainStage } from "./mainStage";
 
 
@@ -27,8 +28,9 @@ class App {
         CoT.position.set(0, 0.1, -4)
         var mainLight: HemisphericLight = new HemisphericLight("light1", new Vector3(0, 1, 1), scene);
         mainLight.intensity = 0.2;
+        const game = new MainGame();
         const mainGui = new MainGUI();
-        mainGui.progress = 0.5;
+        mainGui.progress = game.energyRatio;
         // animateFloat(mainGui, "progress", 4, [0, 1]).then(() => console.log("DONE!"));
         createMainStage();
         scene.registerBeforeRender(() => {
@@ -62,6 +64,8 @@ class App {
 
         // run the main render loop
         engine.runRenderLoop(() => {
+            game.updateEnergy();
+            mainGui.progress = game.energyRatio;
             scene.render();
         });
     }

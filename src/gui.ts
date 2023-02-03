@@ -53,10 +53,11 @@ export class MainGUI {
         advancedTexture.addControl(this.background);
         advancedTexture.addControl(this.progressText);
     }
+    set progressRatio(text: number) {
+        this.progressText.text = `+${text}`;
+    }
 
     set progress(progres: number) {
-
-        // this.forground.left = `50px`;
         this.forground.left = `${(progres * BAR_WIDTH) - BAR_WIDTH}px`;
     }
 

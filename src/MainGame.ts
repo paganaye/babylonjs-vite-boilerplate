@@ -2,7 +2,7 @@ const INITIAL_ENERGY = 1000;
 
 export class MainGame {
     maxEnergy = INITIAL_ENERGY;
-    currentEnergy = INITIAL_ENERGY;
+    currentEnergy = 0;
     energyPerTick = 1;
 
     constructor() {

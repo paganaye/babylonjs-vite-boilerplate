@@ -1,5 +1,3 @@
-// import { CreateGround } from "@babylonjs/core"
-
 import { Color3, Engine, MeshBuilder, PointLight, TransformNode, Vector3 } from "@babylonjs/core";
 import { DEGREE } from "./consts";
 import { createMaterial, createUndergroundMaterial } from "./materials";
@@ -54,7 +52,7 @@ function createSky() {
         light2.intensity = 1;
         return light2
     }
-    const root = new TransformNode("ground");
+    const root = new TransformNode("sky");
     const sky = MeshBuilder.CreatePlane("sky", { width: groundWidth, height: groundWidth });
     const m = createMaterial(new Color3(1, 1, 1), "skyMaterial");
     m.specularColor = Color3.Black();
@@ -62,8 +60,20 @@ function createSky() {
     sky.position.y = groundWidth / 2;
     sky.position.z = 6;
     sky.parent = root;
-    createLight(Color3.FromHexString("#28335F"), new Vector3(5, 4, 2), "dark").parent = root;
-    createLight(Color3.FromHexString("#ff0000"), new Vector3(-5, 0, 2), "red").parent = root;
+    const set_Bright = {
+        left: "#84FFF4",
+        right: "#5785A6"
+    }
+    const set_RedBlue = {
+        left: "#ff0000",
+        right: "#28335F"
+    }
+    const set_Orange = {
+        left: "#F28A2F",
+        right: "#45699C"
+    }
+    createLight(Color3.FromHexString(set_Orange.right), new Vector3(5, 4, 2), "dark").parent = root;
+    createLight(Color3.FromHexString(set_Orange.left), new Vector3(-5, 0, 2), "red").parent = root;
 }
 
 function createPlant() {
