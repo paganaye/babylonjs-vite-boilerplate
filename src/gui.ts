@@ -6,8 +6,8 @@ const createRect = (background: string) => {
     const rect = new Rectangle();
     rect.transformCenterX = 0;
     rect.transformCenterY = 0;
-    rect.width = '250px';
-    rect.height = '50px';
+    rect.width = '180px';
+    rect.height = '30px';
     rect.color = background;
     rect.background = background;
 

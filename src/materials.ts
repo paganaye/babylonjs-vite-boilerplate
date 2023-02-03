@@ -1,9 +1,9 @@
 import { Color3, Engine, StandardMaterial, Texture } from "@babylonjs/core";
 
 
-export const createMaterial = (color: Color3) => {
+export const createMaterial = (color: Color3, name = 'default') => {
     const scene = Engine.LastCreatedScene;
-    const material = new StandardMaterial("A", scene!);
+    const material = new StandardMaterial(name, scene!);
     material.alpha = 1;
     material.diffuseColor = color
     return material
