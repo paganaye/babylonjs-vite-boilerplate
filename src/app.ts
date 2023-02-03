@@ -1,4 +1,4 @@
-import { Engine, FreeCamera, HemisphericLight, Scene, Vector3 } from "@babylonjs/core";
+import { Engine, FreeCamera, HemisphericLight, Matrix, Scene, Vector3 } from "@babylonjs/core";
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders";
@@ -12,8 +12,6 @@ import { createMainStage } from "./mainStage";
 
 class App {
     constructor() {
-
-
         // create the canvas html element and attach it to the webpage
         var canvas = document.createElement("canvas");
         canvas.style.width = "100%";
@@ -34,6 +32,18 @@ class App {
         scene.registerBeforeRender(() => {
             // leaf.addRotation(0, 0.05, 0);
         })
+        scene.onPointerDown = function castRay() {
+
+            var ray = scene.createPickingRay(scene.pointerX, scene.pointerY, Matrix.Identity(), camera, false);
+
+            var hit = scene.pickWithRay(ray);
+
+            console.log("debug", { hit: hit?.pickedMesh.id });
+
+            // if (hit.pickedMesh && hit.pickedMesh.metadata == "cannon"){
+            //     // createGUIButton();
+            // }
+        }
         // hide/show the Inspector
         window.addEventListener("keydown", (ev) => {
             // Shift+Ctrl+Alt+I

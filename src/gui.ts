@@ -46,20 +46,11 @@ export class MainGUI {
     constructor() {
         this.background = createRect('white');
         this.forground = createRect(ENERGY, true);
-
-
-        // var ellipseContainer = new Ellipse("masker");
-        // ellipseContainer.adaptHeightToChildren = true;
-        // ellipseContainer.adaptWidthToChildren = true;
-        // ellipseContainer.width = "80px"
-        // ellipseContainer.height = "80px";
         this.progressText = createText("progressText", "+1");
-        var advancedTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI", true, Engine.LastCreatedScene);
-        // advancedTexture.addControl(ellipseContainer);
-        advancedTexture.addControl(this.background);
         this.background.addControl(this.forground);
-        // this.background.addControl(this.forground);
-        // advancedTexture.addControl(this.forground);
+
+        const advancedTexture = AdvancedDynamicTexture.CreateFullscreenUI("UI", true, Engine.LastCreatedScene);
+        advancedTexture.addControl(this.background);
         advancedTexture.addControl(this.progressText);
     }
 

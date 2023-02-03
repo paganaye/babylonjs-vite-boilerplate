@@ -13,31 +13,20 @@ export class Plant {
     static material: StandardMaterial;
 
     static GetPlantBase() {
-        if (!Plant.material) {
-            Plant.material = createMaterial(Color3.FromHexString("#5EED5E"), "leaf");
-        }
+
         const sphere = MeshBuilder.CreateSphere("plantBase", { segments: 1, diameter: 1 });
-        sphere.material = Plant.material;
+        sphere.material = this.getPlantMaterial();;
         return sphere
 
     }
     static GetLeaft() {
-        if (!Plant.material) {
-            Plant.material = createMaterial(Color3.FromHexString("#5EED5E"), "leaf");
-        }
-        const mat = Plant.material;
-        mat.specularPower = 128.0000;
-        mat.emissiveColor = Color3.FromHexString("#183A2B");
-        mat.ambientColor = Color3.FromHexString("#407D3A");
-        // const leafScale = 0.6;
-        // const degree = Math.PI / 180;
-        const stemNode = new TransformNode("stemNode")
-        const stem = MeshBuilder.CreateCylinder("steam", { height: 2, diameterBottom: 0.2, diameterTop: 0.1, updatable: true, tessellation: 4, subdivisions: 4 });
-        stem.material = mat;
 
-        // cylinder.position.y = 0.1;
-        const leaf = MeshBuilder.CreateCylinder("leaf", { height: 2, diameterBottom: 1, diameterTop: 1, updatable: true, tessellation: 4, subdivisions: 4 });
-        leaf.material = mat;
+        const stemNode = new TransformNode("stemNode")
+        const stem = MeshBuilder.CreateCylinder("steam", { height: 2, diameterBottom: 0.2, diameterTop: 0.1, updatable: true, tessellation: 4 });
+        stem.material = this.getPlantMaterial();;
+
+        const leaf = MeshBuilder.CreateCylinder("leaf", { height: 2, diameterBottom: 1, diameterTop: 1, updatable: true, tessellation: 5, subdivisions: 4 });
+        leaf.material = this.getPlantMaterial();;
         leaf.setPivotPoint(new Vector3(0, -1, 0));
         const vertices = leaf.getVerticesData(VertexBuffer.PositionKind);
         const map = {
@@ -49,12 +38,10 @@ export class Plant {
         }
         vertices!.forEach((v, i, arr) => {
             if (i % 3 === 0) {
-                // console.log(arr[i], arr[i + 1], arr[i + 2]);
-                const y = map[arr[i + 1].toString()]
-                console.log(y)
+                const key = (arr[i + 1].toString()) as unknown as keyof typeof map;
+                const y = map[key]
                 arr[i] *= y;
                 arr[i + 2] *= 0.2 * y;
-
             }
         })
 
@@ -66,40 +53,18 @@ export class Plant {
         leaf.parent = stemNode;
 
         return stemNode;
-        /**
-                console.log(cylinder2.getVerticesData(VertexBuffer.PositionKind));
-                console.log(cylinder2.getIndices());
-        
-                const arr = [0, 2, 3, 2.7, 2];
-                const height = 1;
-                let base = leaf;
-                const pieces = arr.map((diameterBottom, index) => {
-                    const diameterTop = index === arr.length - 1 ? 0 : arr[index + 1];
-                    const mesh = MeshBuilder.CreateCylinder("a", { height, diameterBottom, diameterTop });
-                    mesh.material = mat;
-                    const pieceBase = new TransformNode("a");
-                    mesh.parent = pieceBase;
-        
-                    mesh.scaling.z = 0.2;
-                    pieceBase.setPivotPoint(new Vector3(0, 0, 0));
-                    pieceBase.parent = base;
-                    base = pieceBase;
-                    return pieceBase;
-                })
-                pieces.forEach((trans, i) => {
-                    trans.position.y = i ? 1 : 0;
-                    trans.position.z = 0.1;
-                    trans.addRotation(degree * 10, 0, 0)
-                })
-                leaf.addRotation(degree * 20, 0, 0);
-                leaf.position.y = 1.5;
-                leaf.parent = root;
-                root.scaling.set(leafScale, leafScale, leafScale)
-                // root.addRotation(degree * 30, degree * 45, 0);
-                const masterRoot = new TransformNode("leaf" + this.leavesCreated + 1);
-                root.parent = masterRoot;
-                root.position.y = 0.5;
-                return masterRoot;
-                 */
+    }
+
+    static getPlantMaterial() {
+        if (Plant.material) {
+            return Plant.material;
+        }
+        Plant.material = createMaterial(Color3.FromHexString("#5EED5E"), "leaf");
+        Plant.material.specularPower = 5.7000;
+        Plant.material.diffuseColor = Color3.FromHexString("#4BBD4B");
+        Plant.material.emissiveColor = Color3.FromHexString("#183A2B");
+        Plant.material.ambientColor = Color3.FromHexString("#407D3A");
+        Plant.material.specularColor = Color3.FromHexString("#263D1C");
+        return Plant.material
     }
 }
