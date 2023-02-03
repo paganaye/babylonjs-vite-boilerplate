@@ -13,7 +13,7 @@ export class Roots {
   timer = null;
   currentMousePosition = Vector3.Zero();
   roots?: Mesh;
-  sphere?: Mesh;
+  sphere!: Mesh;
   rootSpeed;
 
   constructor(scene: Scene) {
@@ -34,36 +34,43 @@ export class Roots {
     return mesh === this.roots;
   }
 
-  createSphere() {
+  createSphere(position: Vector3) {
     this.sphere = MeshBuilder.CreateSphere(
       "sphere",
       { diameter: 0.7 },
       this.scene
     );
-    // this.sphere.position = position;
+    this.sphere.position = position;
     this.isDragging = true;
   }
 
   deleteSphere() {
-    this.isDragging = false;
     this.sphere.dispose();
+    this.isDragging = false;
   }
 
-  moveSphere(position: Vector3) {
-    // Calculate the direction vector from the sphere to the mouse
-    const direction = position.subtract(this.sphere.position);
-    const distance = direction.length();
-    direction.normalize();
-
-    // Move the sphere in the direction of the mouse with speed 1
-    if (distance > 0) {
-      this.sphere?.moveWithCollisions(
-        new Vector3(
-          direction.x * this.rootSpeed,
-          direction.y * this.rootSpeed,
-          0
-        )
+  moveSphere() {
+    if (this.isDragging) {
+      const direction = this.currentMousePosition.subtract(
+        this.sphere.position
       );
+      const distance = direction.length();
+      direction.normalize();
+
+      // Move the sphere in the direction of the mouse with speed 1
+      if (distance > 0.1) {
+        this.sphere?.moveWithCollisions(
+          new Vector3(
+            direction.x * this.rootSpeed,
+            direction.y * this.rootSpeed,
+            0
+          )
+        );
+      }
     }
+  }
+
+  updateMousePosition(position: Vector3) {
+    this.currentMousePosition = position;
   }
 }
