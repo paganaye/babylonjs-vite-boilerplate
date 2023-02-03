@@ -28,6 +28,7 @@ class App {
         var mainLight: HemisphericLight = new HemisphericLight("light1", new Vector3(0, 1, 1), scene);
         mainLight.intensity = 0.2;
         const mainGui = new MainGUI();
+        mainGui.progress = 0.5;
         animateFloat(mainGui, "progress", 4, [0, 1]).then(() => console.log("DONE!"));
         createMainStage();
         scene.registerBeforeRender(() => {
