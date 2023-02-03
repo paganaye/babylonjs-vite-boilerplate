@@ -10,28 +10,46 @@ import {
 export class Roots {
   scene: Scene;
   isDragging = false;
-  timer = null;
+  timer?: NodeJS.Timer;
   currentMousePosition = Vector3.Zero();
-  roots?: Mesh;
+  rootsPoints: Vector3[][] = [[Vector3.Zero()]];
+  currentRoot: number = 0;
+  roots: Mesh[] = [];
   sphere!: Mesh;
-  rootSpeed;
+  rootSpeed = 0.015;
 
   constructor(scene: Scene) {
     this.scene = scene;
-    this.roots = MeshBuilder.CreateBox("baseRoot", { size: 0.4 }, this.scene);
-    this.roots.position.y = -0.2;
-    this.rootSpeed = 0.015;
+    this.roots[this.currentRoot] = MeshBuilder.CreateBox(
+      "baseRoot",
+      { size: 0.4 },
+      this.scene
+    );
+    this.roots[this.currentRoot].position.y = -0.2;
   }
-
-  // on click on other roots create sphere on mouse location
-  // that goes to mouse possition moves at speed of 1
 
   getIsDragging() {
     return this.isDragging;
   }
 
   isMeshInRoots(mesh: AbstractMesh) {
-    return mesh === this.roots;
+    return this.roots.some((root) => root === mesh);
+  }
+
+  addRoot() {
+    this.currentRoot += 1;
+    this.rootsPoints.push([]);
+    this.addRootPoint();
+  }
+
+  addRootPoint() {
+    this.rootsPoints[this.currentRoot].push(this.sphere.position.clone());
+  }
+
+  addTime() {
+    this.timer = setInterval(() => {
+      this.addRootPoint();
+    }, 500);
   }
 
   createSphere(position: Vector3) {
@@ -46,7 +64,13 @@ export class Roots {
 
   deleteSphere() {
     this.sphere.dispose();
+    clearInterval(this.timer);
     this.isDragging = false;
+    this.rootsPoints[this.currentRoot].forEach((point) => {
+      const box = MeshBuilder.CreateBox(`box`, { size: 0.1 }, this.scene);
+      box.position = point;
+      this.roots.push(box);
+    });
   }
 
   moveSphere() {
