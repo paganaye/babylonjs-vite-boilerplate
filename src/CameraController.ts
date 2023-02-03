@@ -1,4 +1,4 @@
-import { Camera, Engine, Mesh, TransformNode } from "@babylonjs/core";
+import { Camera, Engine, Mesh, TransformNode, Vector3 } from "@babylonjs/core";
 import { animateTo, animateToVector } from "./animations";
 
 const REGULAR_ZOOM = -12;
@@ -29,5 +29,9 @@ export class CameraConrtoller {
   stopFollow = () => {
     this.target = undefined;
     animateTo(this.cameraContainer, "position.z", 1, [CLOSE_UP, REGULAR_ZOOM]);
+    animateToVector(this.cameraContainer, "position", 1, [
+      this.cameraContainer.position,
+      new Vector3(0, 0.1, REGULAR_ZOOM),
+    ]);
   };
 }

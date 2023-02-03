@@ -77,21 +77,29 @@ class App {
         }
       }
     });
+    const finishFollow = () => {
+      roots.deleteSphere();
+      controller.stopFollow();
+    };
 
     canvas.addEventListener("pointermove", (event) => {
-      if (roots.getIsDragging()) {
+      if (roots.getIsDragging() && game.currentEnergy > 0) {
         let pickResult = scene.pick(event.clientX, event.clientY, (mesh) => {
           return mesh === dirt;
         });
         let target = pickResult.pickedPoint;
         target!.z = 0;
         roots.updateMousePosition(target!);
+        game.useEnergy();
+      } else if (game.currentEnergy <= 0) {
+        finishFollow();
       }
     });
 
     canvas.addEventListener("pointerup", () => {
-      roots.deleteSphere();
-      controller.stopFollow();
+      if (roots.getIsDragging()) {
+        finishFollow();
+      }
     });
 
     scene.registerBeforeRender(() => {
@@ -100,7 +108,10 @@ class App {
 
     // run the main render loop
     engine.runRenderLoop(() => {
-      game.updateEnergy();
+      if (!roots.getIsDragging()) {
+        game.updateEnergy();
+      }
+
       mainGui.progress = game.energyRatio;
       scene.render();
     });
