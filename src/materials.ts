@@ -18,6 +18,7 @@ export const createUndergroundMaterial = () => {
     const norm = new Texture("./textures/forest_ground_04_nor_gl_1k.jpeg");
 
     mat.diffuseTexture = diff;
+    mat.specularColor = Color3.Black();
     mat.ambientTexture = amb;
 
     textures.push(diff)

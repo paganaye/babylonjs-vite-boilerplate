@@ -34,10 +34,11 @@ function createUnderground() {
     const dirt = MeshBuilder.CreatePlane("dirt", { width: groundWidth, height: groundWidth });
     dirt.material = createUndergroundMaterial();
     dirt.position.y = -groundWidth / 2;
-    dirt.position.z = 0;
-    const light = new PointLight("point", new Vector3(0, 0, -4), Engine.LastCreatedScene!);
-    light.radius = 30;
-    light.intensity = 0.5;
+    dirt.position.z = -0;
+    const light = new PointLight("point", new Vector3(0, 0, -0.5), Engine.LastCreatedScene!);
+    light.radius = 1;
+    light.range = 5;
+    light.intensity = 1;
     light.parent = root;
     dirt.parent = root;
 }

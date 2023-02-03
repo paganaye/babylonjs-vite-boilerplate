@@ -3,7 +3,6 @@ import { DEGREE } from "./consts";
 import { createMaterial } from './materials';
 
 
-let mat: StandardMaterial;
 
 
 
