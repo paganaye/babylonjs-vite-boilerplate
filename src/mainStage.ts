@@ -70,13 +70,15 @@ function createPlant() {
     const small = Plant.GetLeaft();
     const big = Plant.GetLeaft();
     const base = Plant.GetPlantBase();
+    const base2 = Plant.GetPlantBase();
 
+    base2.position.set(-2, -1, 0);
     big.rotation.set(15 * DEGREE, 135 * DEGREE, 0)
     small.rotation.set(15 * DEGREE, -90 * DEGREE, 0)
     small.scaling.set(0.3, 0.3, 0.3);
     big.scaling.set(0.5, 0.5, 0.5);
     base.position.set(0, -0.2, 0);
-    base.scaling.set(0.7, 0.7, 0.7);
+
 
     base.parent = root;
     small.parent = root;

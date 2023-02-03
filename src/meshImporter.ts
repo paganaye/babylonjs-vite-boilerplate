@@ -14,7 +14,7 @@ export class Plant {
 
     static GetPlantBase() {
 
-        const sphere = MeshBuilder.CreateSphere("plantBase", { segments: 1, diameter: 1 });
+        const sphere = MeshBuilder.CreateSphere("plantBase", { segments: 1, diameter: 0.7 });
         sphere.material = this.getPlantMaterial();;
         return sphere
 

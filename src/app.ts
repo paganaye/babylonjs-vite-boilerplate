@@ -1,13 +1,11 @@
-import { Engine, FreeCamera, HemisphericLight, Matrix, Scene, Vector3 } from "@babylonjs/core";
+import { Engine, FreeCamera, HemisphericLight, Matrix, Scene, TransformNode, Vector3 } from "@babylonjs/core";
 import "@babylonjs/core/Debug/debugLayer";
 import "@babylonjs/inspector";
 import "@babylonjs/loaders";
 import "@babylonjs/loaders/glTF";
-import { animateFloat } from "./animations";
+import { animateTo } from "./animations";
 import { MainGUI } from "./gui";
 import { createMainStage } from "./mainStage";
-
-
 
 
 class App {
@@ -22,12 +20,16 @@ class App {
         var engine = new Engine(canvas, true);
         var scene = new Scene(engine);
 
-        const camera = new FreeCamera('camera1', new Vector3(0, 0.1, -4), scene);
+        const camera = new FreeCamera('camera1', Vector3.Zero(), scene);
+        var CoT = new TransformNode("cameraNode");
+
+        camera.parent = CoT;
+        CoT.position.set(0, 0.1, -4)
         var mainLight: HemisphericLight = new HemisphericLight("light1", new Vector3(0, 1, 1), scene);
         mainLight.intensity = 0.2;
         const mainGui = new MainGUI();
         mainGui.progress = 0.5;
-        animateFloat(mainGui, "progress", 4, [0, 1]).then(() => console.log("DONE!"));
+        // animateFloat(mainGui, "progress", 4, [0, 1]).then(() => console.log("DONE!"));
         createMainStage();
         scene.registerBeforeRender(() => {
             // leaf.addRotation(0, 0.05, 0);
@@ -38,12 +40,13 @@ class App {
 
             var hit = scene.pickWithRay(ray);
 
-            console.log("debug", { hit: hit?.pickedMesh.id });
-
-            // if (hit.pickedMesh && hit.pickedMesh.metadata == "cannon"){
-            //     // createGUIButton();
-            // }
+            if (hit?.pickedMesh?.id === 'plantBase') {
+                const p = hit?.pickedMesh?.position;
+                animateTo(CoT, "position.x", 1, [CoT.position.x, p.x]);
+                animateTo(CoT, "position.y", 1, [CoT.position.y, p.y]);
+            }
         }
+
         // hide/show the Inspector
         window.addEventListener("keydown", (ev) => {
             // Shift+Ctrl+Alt+I

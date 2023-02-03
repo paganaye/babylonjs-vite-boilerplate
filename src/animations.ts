@@ -1,10 +1,13 @@
-import { Animation, Engine } from "@babylonjs/core";
+import { Animation, CubicEase, EasingFunction, Engine } from "@babylonjs/core";
 
-export const animateFloat = (target: any, key: string, duration: number, values: number[]) => new Promise((resolve) => {
+let runner = 1;
+const ease = new CubicEase()
+ease.setEasingMode(EasingFunction.EASINGMODE_EASEINOUT)
+export const animateTo = (target: any, key: string, duration: number, values: any[]) => new Promise((resolve) => {
     const frameRate = 10;
-
-    const animation = new Animation("xSlide", key, frameRate, Animation.ANIMATIONTYPE_FLOAT, Animation.ANIMATIONLOOPMODE_CONSTANT);
-
+    console.log({ values, key })
+    const animation = new Animation("xSlide" + runner, key, frameRate, Animation.ANIMATIONTYPE_FLOAT, Animation.ANIMATIONLOOPMODE_CONSTANT);
+    animation.setEasingFunction(ease)
     const keyDuration = duration / values.length;
 
     animation.setKeys(values.map((value, index) => ({
