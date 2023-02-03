@@ -9,6 +9,7 @@ import { createMaterial } from './materials';
 
 
 export class Plant {
+
     leavesCreated = 0;
     material: StandardMaterial;
     root: TransformNode;
@@ -52,11 +53,8 @@ export class Plant {
         const pair = new TransformNode("pairOfLeaves");
         const small = this.createLeaf();
         const big = this.createLeaf();
+        this.particleBurst();
 
-        this.particle.start();
-        setTimeout(() => {
-            this.particle.stop();
-        }, 1500)
         big.rotation.set(15 * DEGREE, (180 + baseRotation) * DEGREE, 0)
         small.rotation.set(15 * DEGREE, baseRotation * DEGREE, 0)
         const smallSize = 0.25 + (Math.random() / 10);
@@ -131,5 +129,12 @@ export class Plant {
         mat.ambientColor = Color3.FromHexString("#407D3A");
         mat.specularColor = Color3.FromHexString("#263D1C");
         return mat
+    }
+
+    particleBurst() {
+        this.particle.start();
+        setTimeout(() => {
+            this.particle.stop();
+        }, 1500)
     }
 }
