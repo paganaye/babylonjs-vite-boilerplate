@@ -1,4 +1,11 @@
-import { AbstractMesh, Mesh, MeshBuilder, PointerEventTypes, Scene, Vector3 } from "@babylonjs/core";
+import {
+  AbstractMesh,
+  Mesh,
+  MeshBuilder,
+  Scene,
+  Vector3,
+} from "@babylonjs/core";
+import { SingleRoot } from "./singleRoot";
 
 export class Roots {
   scene: Scene;
@@ -7,14 +14,20 @@ export class Roots {
   currentMousePosition = Vector3.Zero();
   rootsPoints: Vector3[][] = [[Vector3.Zero()]];
   currentRoot: number = 0;
-  roots: Mesh[] = [];
+  roots: SingleRoot[] = [];
   sphere!: Mesh;
   rootSpeed = 0.015;
 
+  baseRoot: Mesh;
+
   constructor(scene: Scene) {
     this.scene = scene;
-    this.roots[this.currentRoot] = MeshBuilder.CreateBox("baseRoot", { size: 0.4 }, this.scene);
-    this.roots[this.currentRoot].position.y = -0.2;
+    this.baseRoot = MeshBuilder.CreateBox(
+      "baseRoot",
+      { size: 0.4 },
+      this.scene
+    );
+    this.baseRoot.position.y = -0.2;
   }
 
   getIsDragging() {
@@ -22,13 +35,16 @@ export class Roots {
   }
 
   isMeshInRoots(mesh: AbstractMesh) {
-    return this.roots.some((root) => root === mesh);
+    return (
+      this.baseRoot === mesh || this.roots.some((root) => root.tube === mesh)
+    );
   }
 
   addRoot() {
     this.currentRoot += 1;
     this.rootsPoints.push([]);
     this.addRootPoint();
+    this.roots[this.currentRoot] = new SingleRoot();
   }
 
   addRootPoint() {
@@ -38,11 +54,16 @@ export class Roots {
   addTime() {
     this.timer = setInterval(() => {
       this.addRootPoint();
-    }, 500);
+    }, 300);
   }
 
   createSphere(position: Vector3) {
-    this.sphere = MeshBuilder.CreateSphere("sphere", { diameter: 0.7 }, this.scene);
+    this.sphere = MeshBuilder.CreateSphere(
+      "sphere",
+      { diameter: 0.7 },
+      this.scene
+    );
+    this.sphere.visibility = 0;
     this.sphere.position = position;
     this.isDragging = true;
     return this.sphere;
@@ -52,24 +73,29 @@ export class Roots {
     this.sphere.dispose();
     clearInterval(this.timer);
     this.isDragging = false;
-    this.rootsPoints[this.currentRoot].forEach((point) => {
-      const box = MeshBuilder.CreateBox(`box`, { size: 0.1 }, this.scene);
-      box.position = point;
-      this.roots.push(box);
-    });
   }
 
   moveSphere() {
     if (this.isDragging) {
-      const direction = this.currentMousePosition.subtract(this.sphere.position);
+      const direction = this.currentMousePosition.subtract(
+        this.sphere.position
+      );
       const distance = direction.length();
       direction.normalize();
 
       // Move the sphere in the direction of the mouse with speed 1
       if (distance > 0.1) {
         this.sphere?.moveWithCollisions(
-          new Vector3(direction.x * this.rootSpeed, direction.y * this.rootSpeed, 0)
+          new Vector3(
+            direction.x * this.rootSpeed,
+            direction.y * this.rootSpeed,
+            0
+          )
         );
+        this.roots[this.currentRoot].update([
+          ...this.rootsPoints[this.currentRoot],
+          this.sphere.position,
+        ]);
       }
     }
   }
