@@ -97,7 +97,6 @@ class App {
           const target = pickDirt.pickedPoint;
           target!.z = 0;
           roots.createSphere();
-          roots.moveSphere(target!);
         }
       }
     });

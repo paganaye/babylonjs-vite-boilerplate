@@ -2,6 +2,7 @@ import {
   AbstractMesh,
   Mesh,
   MeshBuilder,
+  PointerEventTypes,
   Scene,
   Vector3,
 } from "@babylonjs/core";
@@ -13,11 +14,13 @@ export class Roots {
   currentMousePosition = Vector3.Zero();
   roots?: Mesh;
   sphere?: Mesh;
+  rootSpeed;
 
   constructor(scene: Scene) {
     this.scene = scene;
     this.roots = MeshBuilder.CreateBox("baseRoot", { size: 0.4 }, this.scene);
     this.roots.position.y = -0.2;
+    this.rootSpeed = 0.015;
   }
 
   // on click on other roots create sphere on mouse location
@@ -37,7 +40,7 @@ export class Roots {
       { diameter: 0.7 },
       this.scene
     );
-
+    // this.sphere.position = position;
     this.isDragging = true;
   }
 
@@ -47,6 +50,20 @@ export class Roots {
   }
 
   moveSphere(position: Vector3) {
-    this.sphere.position = position;
+    // Calculate the direction vector from the sphere to the mouse
+    const direction = position.subtract(this.sphere.position);
+    const distance = direction.length();
+    direction.normalize();
+
+    // Move the sphere in the direction of the mouse with speed 1
+    if (distance > 0) {
+      this.sphere?.moveWithCollisions(
+        new Vector3(
+          direction.x * this.rootSpeed,
+          direction.y * this.rootSpeed,
+          0
+        )
+      );
+    }
   }
 }
