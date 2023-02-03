@@ -3,7 +3,7 @@
 import { Color3, Engine, MeshBuilder, PointLight, TransformNode, Vector3 } from "@babylonjs/core";
 import { DEGREE } from "./consts";
 import { createMaterial, createUndergroundMaterial } from "./materials";
-import { createLeaft } from "./meshImporter";
+import { Plant } from "./meshImporter";
 
 
 const groundWidth = 100;
@@ -67,13 +67,19 @@ function createSky() {
 
 function createPlant() {
     const root = new TransformNode("plant");
-    const leaf1 = createLeaft();
-    const leaf2 = createLeaft();
+    const small = Plant.GetLeaft();
+    const big = Plant.GetLeaft();
+    const base = Plant.GetPlantBase();
 
-    leaf2.position.set(-0.415, 0, -0.415);
-    leaf2.rotation.set(0, -106.2822 * DEGREE, 13.2228 * DEGREE)
-    leaf2.scaling.set(0.7, 0.7, 0.7);
-    leaf1.parent = root;
-    leaf2.parent = root;
+    big.rotation.set(15 * DEGREE, 135 * DEGREE, 0)
+    small.rotation.set(15 * DEGREE, -90 * DEGREE, 0)
+    small.scaling.set(0.3, 0.3, 0.3);
+    big.scaling.set(0.5, 0.5, 0.5);
+    base.position.set(0, -0.2, 0);
+    base.scaling.set(0.7, 0.7, 0.7);
+
+    base.parent = root;
+    small.parent = root;
+    big.parent = root;
 }
 
