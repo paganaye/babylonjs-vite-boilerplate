@@ -2,6 +2,7 @@ import { Color3, Engine, MeshBuilder, PointLight, TransformNode, Vector3 } from 
 import { DEGREE } from "./consts";
 import { createMaterial, createUndergroundMaterial } from "./materials";
 import { Plant } from "./plant";
+import { SingleRoot } from "./singleRoot";
 
 
 const groundWidth = 100;
@@ -11,6 +12,7 @@ export const createMainStage = () => {
     createGround();
     createSky();
     new Plant();
+    new SingleRoot();
     createUnderground();
 }
 
