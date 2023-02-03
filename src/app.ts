@@ -96,7 +96,8 @@ class App {
         if (pickDirt.hit) {
           const target = pickDirt.pickedPoint;
           target!.z = 0;
-          roots.createSphere();
+          roots.createSphere(target!);
+          roots.updateMousePosition(target!);
         }
       }
     });
@@ -108,12 +109,16 @@ class App {
         });
         let target = pickResult.pickedPoint;
         target!.z = 0;
-        roots.moveSphere(target!);
+        roots.updateMousePosition(target!);
       }
     });
 
     canvas.addEventListener("pointerup", () => {
       roots.deleteSphere();
+    });
+
+    scene.registerBeforeRender(() => {
+      roots.moveSphere();
     });
 
     // run the main render loop
