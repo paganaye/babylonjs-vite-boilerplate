@@ -27,7 +27,7 @@ export const createMainStage = () => {
         a.push(new Vector3((Math.random() - 0.5) * 0.3, ypos, 0))
         root.update(a)
     }, 200)
-    createUnderground();
+    return createUnderground();
 }
 
 function createGround() {
