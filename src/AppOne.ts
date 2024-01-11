@@ -27,6 +27,8 @@ export class AppOne {
         });
     }
 
+
+
 }
 
 
@@ -53,12 +55,40 @@ var createScene = function (engine: BABYLON.Engine, canvas: HTMLCanvasElement) {
 
     // Our built-in 'sphere' shape.
     var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: 2, segments: 32 }, scene);
-
     // Move the sphere upward 1/2 its height
-    sphere.position.y = 1;
+    let startPos = 2;
+    sphere.position.y = startPos;
 
     // Our built-in 'ground' shape.
     var ground = BABYLON.MeshBuilder.CreateGround("ground", { width: 6, height: 6 }, scene);
+    var groundMaterial = new BABYLON.StandardMaterial("groundMaterial", scene);
+    groundMaterial.diffuseColor = new BABYLON.Color3(0.5, 0.8, 0.5); // RGB for a greenish color
+    ground.material = groundMaterial;
+    groundMaterial.bumpTexture = new BABYLON.Texture("./normal.jpg", scene);
+    //groundMaterial.bumpTexture.level = 0.125;    
+
+
+    var redMaterial = new BABYLON.StandardMaterial("redMaterial", scene);
+    redMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0); // RGB for red
+    sphere.material = redMaterial;
+
+    var sphereVelocity = 0;
+    var gravity = 0.009;
+    var reboundLoss = 0.1;
+
+    scene.registerBeforeRender(() => {
+        sphereVelocity += gravity;
+        let newY = sphere.position.y - sphereVelocity;
+        sphere.position.y -= sphereVelocity
+        if (newY < 1) {
+            sphereVelocity = (reboundLoss - 1) * sphereVelocity;
+            newY = 1;
+        }
+        sphere.position.y = newY;
+        if (Math.abs(sphereVelocity) <= gravity && newY < 1 + gravity) {
+            sphere.position.y = startPos++;
+        }
+    });
 
     return scene;
 };
